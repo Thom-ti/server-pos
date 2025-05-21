@@ -3,21 +3,21 @@ import { Document } from 'mongoose';
 
 export type ProductDocument = Product & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class Product {
-  @Prop({ required: true })
+  @Prop({ required: true, trim: true })
   name: string;
 
   @Prop()
   imageUrl: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, min: 0 })
   price: number;
 
-  @Prop({ required: true })
+  @Prop({ required: true, min: 0 })
   stock: number;
 
-  @Prop()
+  @Prop({ default: '' })
   description: string;
 }
 

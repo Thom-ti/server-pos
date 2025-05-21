@@ -4,12 +4,12 @@ import { Product } from 'src/products/schema/product.schema';
 
 export type CartItemDocument = CartItem & Document;
 
-@Schema()
+@Schema({ timestamps: true })
 export class CartItem {
   @Prop({ type: Types.ObjectId, ref: Product.name, required: true })
-  product: Types.ObjectId;
+  product: Product | Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop({ required: true, min: 1 })
   quantity: number;
 }
 
