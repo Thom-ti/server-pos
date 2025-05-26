@@ -10,7 +10,7 @@ export class ProductsRepository {
   ) {}
 
   async findAllProducts(): Promise<Product[]> {
-    const products = await this.productModel.find().exec();
+    const products = await this.productModel.find().lean().exec();
     if (products.length === 0) {
       throw new NotFoundException('No products found');
     }
@@ -19,13 +19,16 @@ export class ProductsRepository {
 
   async searchProducts(keyword: string): Promise<Product[]> {
     const regex = new RegExp(keyword, 'i'); // case-insensitive
-    return this.productModel.find({
-      $or: [{ name: { $regex: regex } }, { description: { $regex: regex } }],
-    });
+    return this.productModel
+      .find({
+        $or: [{ name: { $regex: regex } }, { description: { $regex: regex } }],
+      })
+      .lean()
+      .exec();
   }
 
   async findProductById(id: string): Promise<Product> {
-    const product = await this.productModel.findById(id).exec();
+    const product = await this.productModel.findById(id).lean().exec();
     if (!product) {
       throw new NotFoundException(`Product with id ${id} not found`);
     }

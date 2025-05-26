@@ -19,7 +19,7 @@ export class CartItemsRepository {
 
   async createCartItem(dto: CreateCartItemDto): Promise<CartItem> {
     // check product
-    const product = await this.productModel.findById(dto.product).exec();
+    const product = await this.productModel.findById(dto.product).lean().exec();
 
     if (!product) {
       throw new NotFoundException('Product not found');
@@ -35,6 +35,7 @@ export class CartItemsRepository {
     // check cartItem
     const checkCartItem = await this.cartItemModel
       .findOne({ product: dto.product })
+      .lean()
       .exec();
 
     if (checkCartItem) {
