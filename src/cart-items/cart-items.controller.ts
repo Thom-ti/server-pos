@@ -12,13 +12,13 @@ export class CartItemsController {
   ) {}
 
   @Post()
-  addItemToCart(@Body() createCartItemDto: CreateCartItemDto) {
-    return this.cartItemsService.create(createCartItemDto);
+  addItemToCart(@Body() body: CreateCartItemDto) {
+    return this.cartItemsRepository.createCartItem(body);
   }
 
   @Get()
   getAllCartItems() {
-    return this.cartItemsRepository.findAll();
+    return this.cartItemsRepository.findAllCartItems();
   }
 
   // @Patch(':id')
